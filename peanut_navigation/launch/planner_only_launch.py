@@ -95,103 +95,15 @@ def generate_launch_description():
             'map_subscribe_transient_local', default_value='false',
             description='Whether to set the map subscriber QoS to transient local'),
 
-		 Node(
-            package="peanut2_utilities",
-            executable="clock_sub",
-            name="clock_subscriber",
-            output="screen",
-            emulate_tty=True,
-            parameters=[configured_params]),
-		 Node(
-            package="tf2_ros",
-            executable="static_transform_publisher",
-            name="static_tf_1",
-            arguments=["-0.203", "0", "0.142", "0", "0", "0", "mobile_base_link", "base_lidar_link"],
-            output="screen",
-            emulate_tty=True),
-		Node(
-            package="tf2_ros",
-            executable="static_transform_publisher",
-            name="static_tf_2",
-            arguments=["0.019", "0", "1.411", "0", "0", "-3.142", "tower_link", "head_lidar_link"],
-            output="screen",
-            emulate_tty=True),
- 		Node(
-            package="tf2_ros",
-            executable="static_transform_publisher",
-            name="static_tf_3",
-            arguments=["0", "0", "0", "0", "0", "0", "tower_link", "tower_plate_link"],
-            output="screen",
-            emulate_tty=True),
-		Node(
-            package="tf2_ros",
-            executable="static_transform_publisher",
-            name="static_tf_4",
-            arguments=["0", "0", "1.316", "0", "0", "0", "tower_link", "head_motor_link"],
-            output="screen",
-            emulate_tty=True),
+		
+
         Node(
-            package="tf2_ros",
-            executable="static_transform_publisher",
-            name="static_tf_5",
-            arguments=["0.07", "0", "0", "0", "0", "0", "mobile_base_link", "tower_link"],
-            output="screen",
-            emulate_tty=True),
- 		Node(
-            package="nav2_map_server",
-            executable="map_server",
-            name="my_map_server",
-            output="screen",
-            emulate_tty=True,
-            parameters=[
-                {"yaml_filename": "/home/peanut/peanut2_ws/src/peanut_ros2/peanut_navigation/maps/office.yaml"}
-            ]),
-        Node(
-            package='nav2_controller',
-            executable='controller_server',
+            package='nav2_planner',
+            executable='planner_server',
+            name='planner_server',
             output='screen',
             parameters=[configured_params],
-            remappings=remappings),
-
-        # Node(
-        #    package='nav2_planner',
-        #    executable='planner_server',
-        #    name='planner_server',
-        #    output='screen',
-        #    parameters=[configured_params],
-        #    remappings=remappings),
-
-        Node(
-            package='nav2_recoveries',
-            executable='recoveries_server',
-            name='recoveries_server',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings),
-
-        Node(
-            package='nav2_bt_navigator',
-            executable='bt_navigator',
-            name='bt_navigator',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings),
-
-        Node(
-            package='nav2_waypoint_follower',
-            executable='waypoint_follower',
-            name='waypoint_follower',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings),
-
-        Node(
-            package='nav2_lifecycle_manager',
-            executable='lifecycle_manager',
-            name='lifecycle_manager_navigation',
-            output='screen',
-            parameters=[{'use_sim_time': use_sim_time},
-                        {'autostart': autostart},
-                        {'node_names': lifecycle_nodes}]),
+            remappings=remappings,
+            prefix=['gdb -ex run --args']),
 
     ])
