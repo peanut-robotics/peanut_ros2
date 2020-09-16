@@ -25,8 +25,8 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('nav2_bringup')
-
+    bringup_dir = get_package_share_directory('peanut_navigation')
+	
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
@@ -47,7 +47,8 @@ def generate_launch_description():
     # TODO(orduno) Substitute with `PushNodeRemapping`
     #              https://github.com/ros2/launch_ros/issues/56
     remappings = [('/tf', 'tf'),
-                  ('/tf_static', 'tf_static')]
+                  ('/tf_static', 'tf_static'),
+                  ('/cmd_vel', '/oil/navigation/apply_velocity_to_base')]
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
@@ -71,7 +72,7 @@ def generate_launch_description():
             description='Top-level namespace'),
 
         DeclareLaunchArgument(
-            'use_sim_time', default_value='false',
+            'use_sim_time', default_value="True",
             description='Use simulation (Gazebo) clock if true'),
 
         DeclareLaunchArgument(
@@ -80,7 +81,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'params_file',
-            default_value=os.path.join(bringup_dir, 'params', 'nav2_params.yaml'),
+            default_value=os.path.join(bringup_dir, 'config', 'nav_params.yaml'),
             description='Full path to the ROS2 parameters file to use'),
 
         DeclareLaunchArgument(
@@ -94,11 +95,39 @@ def generate_launch_description():
             'map_subscribe_transient_local', default_value='false',
             description='Whether to set the map subscriber QoS to transient local'),
 
-		Node(
+		 Node(
             package="tf2_ros",
             executable="static_transform_publisher",
             name="static_tf_1",
-            arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
+            arguments=["-0.203", "0", "0.142", "0", "0", "0", "mobile_base_link", "base_lidar_link"],
+            output="screen",
+            emulate_tty=True),
+		Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="static_tf_2",
+            arguments=["0.019", "0", "1.411", "0", "0", "-3.142", "tower_link", "head_lidar_link"],
+            output="screen",
+            emulate_tty=True),
+ 		Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="static_tf_3",
+            arguments=["0", "0", "0", "0", "0", "0", "tower_link", "tower_plate_link"],
+            output="screen",
+            emulate_tty=True),
+		Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="static_tf_4",
+            arguments=["0", "0", "1.316", "0", "0", "0", "tower_link", "head_motor_link"],
+            output="screen",
+            emulate_tty=True),
+        Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="static_tf_5",
+            arguments=["0.07", "0", "0", "0", "0", "0", "mobile_base_link", "tower_link"],
             output="screen",
             emulate_tty=True),
  		Node(
