@@ -25,7 +25,7 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('peanut_navigation')
+    bringup_dir = get_package_share_directory('peanut2_navigation')
 	
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -144,7 +144,7 @@ def generate_launch_description():
             output="screen",
             emulate_tty=True,
             parameters=[
-                {"yaml_filename": "/home/peanut/peanut2_ws/src/peanut_ros2/peanut_navigation/maps/office.yaml"}
+                {"yaml_filename": "/home/peanut/peanut2_ws/src/peanut_ros2/peanut2_navigation/maps/office.yaml"}
             ]),
         Node(
             package='nav2_controller',
