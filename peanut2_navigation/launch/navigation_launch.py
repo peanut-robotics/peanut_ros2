@@ -39,6 +39,7 @@ def generate_launch_description():
                        'recoveries_server',
                        'bt_navigator',
                        'waypoint_follower']
+  
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -62,7 +63,9 @@ def generate_launch_description():
             root_key=namespace,
             param_rewrites=param_substitutions,
             convert_types=True)
-
+    prefix = ""
+	# prefix = "xterm -e valgrind"
+    # prefix = 'xterm -e gdb -ex run --args'
     return LaunchDescription([
         # Set env var to print messages to stdout immediately
         SetEnvironmentVariable('RCUTILS_LOGGING_BUFFERED_STREAM', '1'),
@@ -95,13 +98,20 @@ def generate_launch_description():
             'map_subscribe_transient_local', default_value='false',
             description='Whether to set the map subscriber QoS to transient local'),
 
-		 Node(
-            package="peanut2_utilities",
-            executable="clock_sub",
-            name="clock_subscriber",
+		 # Node(
+         #   package="peanut2_utilities",
+         #   executable="clock_sub",
+         #   name="clock_subscriber",
+         #   output="screen",
+         #   emulate_tty=True,
+         #   parameters=[configured_params]),
+         Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="static_tf_1",
+            arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
             output="screen",
-            emulate_tty=True,
-            parameters=[configured_params]),
+            emulate_tty=True),
 		 Node(
             package="tf2_ros",
             executable="static_transform_publisher",
@@ -151,15 +161,17 @@ def generate_launch_description():
             executable='controller_server',
             output='screen',
             parameters=[configured_params],
-            remappings=remappings),
+            remappings=remappings,
+            prefix=prefix),
 
-        # Node(
-        #    package='nav2_planner',
-        #    executable='planner_server',
-        #    name='planner_server',
-        #    output='screen',
-        #    parameters=[configured_params],
-        #    remappings=remappings),
+        Node(
+            package='nav2_planner',
+            executable='planner_server',
+            name='planner_server',
+            output='screen',
+            parameters=[configured_params],
+            remappings=remappings,
+            prefix=prefix),
 
         Node(
             package='nav2_recoveries',
