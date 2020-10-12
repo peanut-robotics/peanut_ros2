@@ -44,15 +44,6 @@ RUN cd ~/peanut2_ws && \
     . /opt/ros/foxy/setup.sh && \
     colcon build --symlink-install
 
-# Setup navigation stack 
-ARG NAV2_WS
-RUN mkdir -p ~/navigation2_ws/src
-RUN cd ~/navigation2_ws/src && git clone https://github.com/ros-planning/navigation2.git --branch foxy-devel
-RUN cd ~/navigation2_ws && \
-    . /opt/ros/foxy/setup.sh && \
-    rosdep install -y -r -q --from-paths src --ignore-src --rosdistro foxy && \
-    colcon build --symlink-install
-
 # Setup ros bridge source files 
 ARG BRIDGE_WS
 RUN mkdir -p ~/bridge_ws/src 
@@ -62,9 +53,17 @@ RUN cd ~/bridge_ws && \
     . /opt/ros/noetic/setup.sh && \ 
     . /opt/ros/foxy/setup.sh && \
     . ~/peanut2_ws/install/setup.sh && \
-    . ~/navigation2_ws/install/setup.sh && \
     colcon build --symlink-install
 
+# Setup navigation stack 
+ARG NAV2_WS
+RUN mkdir -p ~/navigation2_ws/src
+RUN cd ~/navigation2_ws/src && git clone https://github.com/ros-planning/navigation2.git --branch foxy-devel
+RUN cd ~/navigation2_ws && \
+    . /opt/ros/foxy/setup.sh && \
+    rosdep install -y -r -q --from-paths src --ignore-src --rosdistro foxy && \
+    colcon build --symlink-install
+    
 # Copy scripts
 COPY ./source_peanut2.sh /
 COPY ./source_bridge.sh / 
