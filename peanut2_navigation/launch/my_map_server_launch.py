@@ -10,7 +10,7 @@ def generate_launch_description():
             output="screen",
             emulate_tty=True,
             parameters=[
-                {"yaml_filename": "/home/peanut/peanut2_ws/src/peanut_ros2/peanut_navigation/maps/office.yaml"}
+                {"yaml_filename": "/home/peanut/peanut2_ws/src/peanut_ros2/peanut2_navigation/maps/office.yaml"}
             ]
         )
     ])
