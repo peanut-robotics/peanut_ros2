@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'clock_sub = peanut2_utilities.clock_subscriber:main',
+            'simple_pub = peanut2_utilities.simple_publisher:main',
         ],
     },
 )
