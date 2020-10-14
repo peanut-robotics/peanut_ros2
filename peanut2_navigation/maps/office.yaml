@@ -1,4 +1,4 @@
-image: /home/peanut/peanut2_ws/src/peanut_ros2/peanut2_navigation/maps/office.pgm
+image: office.pgm
 resolution: 0.050000
 origin: [-100.000000, -100.000000, 0.000000]
 negate: 0
