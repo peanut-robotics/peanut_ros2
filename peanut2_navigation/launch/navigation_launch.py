@@ -155,7 +155,7 @@ def generate_launch_description():
             output="screen",
             emulate_tty=True,
             parameters=[
-                {"yaml_filename": "../maps/office.yaml"}
+                {"yaml_filename": "/root/peanut2_ws/src/peanut_ros2/peanut2_navigation/maps/office.yaml"}
             ]),
         Node(
             package='nav2_controller',
