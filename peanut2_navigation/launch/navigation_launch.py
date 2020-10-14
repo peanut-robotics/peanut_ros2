@@ -38,7 +38,8 @@ def generate_launch_description():
                        'planner_server',
                        'recoveries_server',
                        'bt_navigator',
-                       'waypoint_follower']
+                       'waypoint_follower',
+                       'map_server']
   
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
@@ -75,7 +76,7 @@ def generate_launch_description():
             description='Top-level namespace'),
 
         DeclareLaunchArgument(
-            'use_sim_time', default_value="True",
+            'use_sim_time', default_value="true",
             description='Use simulation (Gazebo) clock if true'),
 
         DeclareLaunchArgument(
@@ -150,11 +151,11 @@ def generate_launch_description():
  		Node(
             package="nav2_map_server",
             executable="map_server",
-            name="my_map_server",
+            name="map_server",
             output="screen",
             emulate_tty=True,
             parameters=[
-                {"yaml_filename": "/home/peanut/peanut2_ws/src/peanut_ros2/peanut2_navigation/maps/office.yaml"}
+                {"yaml_filename": "../maps/office.yaml"}
             ]),
         Node(
             package='nav2_controller',
