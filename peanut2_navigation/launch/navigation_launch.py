@@ -38,7 +38,8 @@ def generate_launch_description():
                        'planner_server',
                        'recoveries_server',
                        'bt_navigator',
-                       'waypoint_follower']
+                       'waypoint_follower',
+                       'map_server']
   
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
@@ -150,7 +151,7 @@ def generate_launch_description():
  		Node(
             package="nav2_map_server",
             executable="map_server",
-            name="my_map_server",
+            name="map_server",
             output="screen",
             emulate_tty=True,
             parameters=[
